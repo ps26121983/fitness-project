@@ -1,16 +1,48 @@
 package com.fitness.data.core.model;
 
-public class Member {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-	private String id;
+@Entity
+@Table(name="MEMBER_DETAILS")
+public class Member {
 	
+	@Id
+	@GeneratedValue (strategy=GenerationType.AUTO)
+	@Column(name="MEMBER_ID")
+	private int id;
+	@Column(name="MEMBER_NAME")
 	private String name;
+	@Column(name="CONTACT_NUM")
+	private Long contactNo;
+	@Column(name="ADDRESS")
+	private String address;
+
+	public Long getContactNo() {
+		return contactNo;
+	}
+
+	public void setContactNo(Long contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}	
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -21,6 +53,5 @@ public class Member {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 }

@@ -11,39 +11,15 @@
 		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../parent/pom.xml</relativePath>
-	</parent>
-	
-	<properties>
-		<spring.version>4.1.5.RELEASE</spring.version>
-	</properties>
+	</parent>	
   	
   	<dependencies>
   		<dependency>
   			<groupId>com.fitness.management.modules</groupId>
   			<artifactId>dataservices</artifactId>
   			<version>0.0.1-SNAPSHOT</version>
-  		</dependency>
-  		
-  		<!-- Spring modules -->
-  		
-  		<dependency>
-  			<groupId>org.springframework</groupId>
-  			<artifactId>spring-core</artifactId>
-  			<version>${spring.version}</version>
-  		</dependency>
-  		
-  		<dependency>
-  			<groupId>org.springframework</groupId>
-  			<artifactId>spring-web</artifactId>
-  			<version>${spring.version}</version>
-  		</dependency>
-  		  		
-  		<dependency>
-  			<groupId>org.springframework</groupId>
-  			<artifactId>spring-webmvc</artifactId>
-  			<version>${spring.version}</version>
-  		</dependency>
-  		
+  		</dependency>  		  
+		
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-databind</artifactId>
