@@ -29,13 +29,17 @@ public class MemberDAOImpl implements MemberDAO{
 	private static StandardServiceRegistryBuilder serviceRegistry;
 	
 	
-	public List<Member> getMember(int memberId){
-		Member member = null;
+	public SessionFactory getSessionFactory(){
 		Configuration conf = new Configuration().configure("hibernate.cfg.xml");
 		serviceRegistry = new StandardServiceRegistryBuilder().applySettings(conf.getProperties());
 		factory = conf.buildSessionFactory(serviceRegistry.build());
+		return factory;
+	}
+	
+	public List<Member> getMember(int memberId){		
 		
-		Session	session = factory.openSession();
+		
+		Session	session = this.getSessionFactory().openSession();
 		session.beginTransaction();
 		List<Member> ls = session.createCriteria(Member.class).list();				
 		session.getTransaction().commit();
@@ -50,11 +54,7 @@ public class MemberDAOImpl implements MemberDAO{
 		member.setAddress(member.getAddress());
 		
 		try{
-		Configuration conf = new Configuration().configure("hibernate.cfg.xml");
-		serviceRegistry = new StandardServiceRegistryBuilder().applySettings(conf.getProperties());
-		factory = conf.buildSessionFactory(serviceRegistry.build());
-		
-		Session	session = factory.openSession();
+		Session	session = this.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(member);
 		session.getTransaction().commit();
@@ -68,17 +68,12 @@ public class MemberDAOImpl implements MemberDAO{
 
 	public String updateMember(Member member) {
 				
-		try{
-			Configuration conf = new Configuration().configure("hibernate.cfg.xml");
-			serviceRegistry = new StandardServiceRegistryBuilder().applySettings(conf.getProperties());
-			factory = conf.buildSessionFactory(serviceRegistry.build());
+		try{			
 			Transaction tx = null;
-			Session	session = factory.openSession();
+			Session	session = this.getSessionFactory().openSession();
 			tx = session.beginTransaction();
-			Member localMember = (Member) session.get(Member.class, member.getId());			
-			
-			if (localMember != null){				
-				
+			Member localMember = (Member) session.get(Member.class, member.getId());						
+			if (localMember != null){								
 				localMember.setName(member.getName());
 				localMember.setContactNo(member.getContactNo());
 				localMember.setAddress(member.getAddress());				
