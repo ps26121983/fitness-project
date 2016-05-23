@@ -7,6 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
@@ -71,31 +72,22 @@ public class MemberDAOImpl implements MemberDAO{
 			Configuration conf = new Configuration().configure("hibernate.cfg.xml");
 			serviceRegistry = new StandardServiceRegistryBuilder().applySettings(conf.getProperties());
 			factory = conf.buildSessionFactory(serviceRegistry.build());
-			
+			Transaction tx = null;
 			Session	session = factory.openSession();
-			session.beginTransaction();
+			tx = session.beginTransaction();
+			Member localMember = (Member) session.get(Member.class, member.getId());			
 			
-			Criteria criteria = session.createCriteria(Member.class);
-			Criterion criterion = Restrictions.eq("id", member.getId());
-			criteria.add(criterion);
-						
-			List<Member> ls = criteria.list();
-			ListIterator listIter = ls.listIterator();
-			
-			if (listIter.hasNext()){
-				//Member localMember = new Member();
+			if (localMember != null){				
 				
-				member.setName(member.getName());
-				member.setContactNo(member.getContactNo());
-				member.setAddress(member.getAddress());
-				
-				session.update(member); 
+				localMember.setName(member.getName());
+				localMember.setContactNo(member.getContactNo());
+				localMember.setAddress(member.getAddress());				
+				session.update(localMember);
+				tx.commit();
 			}
 			else{
 				System.out.println("There is no data with the Member id" +member.getId());
-			}
-			
-			session.getTransaction().commit();
+			}			
 			session.close();		
 			}
 			catch(HibernateException e){
